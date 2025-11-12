@@ -33,7 +33,7 @@ jobs:
             docker compose -f /root/docker-compose.yml up -d --remove-orphans orc-web
 
             # 3) Smoke test QUA TRAEFIK với path "/"
-            code=$(curl -sS -o /dev/null -w "%{http_code}" https://orcweb.shopabcquocdat.xyz/ || true)
+            code=$(curl -sS -o /dev/null -w "%{http_code}" https://demoorcweb.shopabcquocdat.xyz/ || true)
             if [ "$code" -lt 200 ] || [ "$code" -ge 400 ]; then
               echo "❌ Smoke test FAIL (domain /): $code"
               echo "🔎 Docker logs (orc-web):"
