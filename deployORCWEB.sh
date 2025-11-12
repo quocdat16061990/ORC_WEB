@@ -15,6 +15,6 @@ git reset --hard origin/main 2>&1 | tee -a "$LOG_FILE"
 
 log "🔧 Running deployment steps..."
 # Thêm các bước deploy của Sếp ở đây (build/up docker, migrate, v.v.)
-
+# dsaddsasad
 log "✅ Deployment hoàn tất!"
 log "==============================================="
