@@ -1,2 +1,3 @@
 # OCR
 # lan 1
+# lan 2
