@@ -21,8 +21,25 @@ jobs:
           port: 22
           timeout: 30s
           command_timeout: 15m
+          script_stop: true            # ✅ lỗi là DỪNG toàn bộ, job sẽ đỏ
           script: |
+            set -euo pipefail
+
             echo "🚀 Deploying ORC app to VPS..."
             cd ~/ORC_WEB
-            ./deployORCWEB.sh
+
+            # đảm bảo luôn chạy được
+            chmod +x ./deployORCWEB.sh || true
+            dos2unix ./deployORCWEB.sh 2>/dev/null || true
+
+            # chạy bằng bash để tránh lỗi Permission denied do exec bit/loader
+            bash -lc "./deployORCWEB.sh"
+
+            # post-deploy smoke test: phải trả 200 thì mới coi là thành công
+            code=$(curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:8504/healthz || true)
+            if [ "$code" != "200" ]; then
+              echo "❌ Smoke test FAIL: $code"
+              exit 1
+            fi
+
             echo "✅ Deployment completed successfully!"
